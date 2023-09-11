@@ -29,11 +29,11 @@ app.post('/api/check', async (req: Request, res: Response) => {
 // })
 
 
-app.use(express.static(path.join(__dirname, 'website/dist')));
+app.use(express.static(path.join(__dirname, 'website/build')));
 
 // Обработка всех запросов, кроме API-запросов, отправляет index.html
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'website/dist', 'index.html'));
+    res.sendFile(path.join(__dirname, 'website/build', 'index.html'));
 });
 
 app.listen(port, () => {

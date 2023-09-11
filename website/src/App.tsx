@@ -1,9 +1,9 @@
 import './App.css'
 import {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import * as cn from "classnames"
+import cn from "classnames";
 import {IStore} from "./store";
-import {addDomain, EStatus} from "./store/actions/cheker.ts";
+import {addDomain, EStatus} from "./store/actions/cheker";
 
 function App() {
 

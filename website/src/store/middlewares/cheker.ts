@@ -13,10 +13,7 @@ const chekerMiddleware: Middleware<{}, IStore> = (api) => (next) => (action) => 
 
     const result = next(action);
     const newState = api.getState();
-    // https://godaddy-domain-checker.onrender.com
-    const appUrl = import.meta.env?.DOMAIN ? import.meta.env?.APP_URL : "http://localhost:8080/"
-    console.log("env", import.meta.env)
-    console.log("appUrl", appUrl)
+    const appUrl = process.env.APP_URL ? process.env.APP_URL : "https://godaddy-domain-checker.onrender.com"
 
     if (newState.checker.isQueue && newState.checker.status === EStatus.WAITING) {
 
@@ -25,7 +22,7 @@ const chekerMiddleware: Middleware<{}, IStore> = (api) => (next) => (action) => 
         if (targets.length > 0) {
             api.dispatch(setStatus(EStatus.CHECKING))
             axios
-                .post(`${appUrl}api/check`, {
+                .post(`${appUrl}/api/check`, {
                     domainName: targets[0].domainName
                 })
                 .then((e: { data: IDomainData }) => {
