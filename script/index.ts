@@ -1,37 +1,20 @@
-import axios from "axios";
+import express, {Request, Response} from 'express';
+import checker from "./checker";
 
-require('dotenv').config();
+const app = express()
+const port = process.env.PORT || 8080
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
 
-const apiKey = process.env.GODADDY_KEY;
-const apiSecret = process.env.GODADDY_SECRET;
-const targets: string = process.env.TARGETS || ""
-
-
-const run = async () => {
-    let available: string[] = []
-    for (const domainName of targets.split(", ")) {
-        const response: null | { available: boolean, definitive: boolean, domain: string }
-            = await axios.get(`https://api.godaddy.com/v1/domains/available`, {
-            headers: {
-                Authorization: `sso-key ${apiKey}:${apiSecret}`,
-            },
-            params: {
-                domain: domainName,
-            },
-        })
-            .then((response) => {
-                return response.data
-            })
-            .catch((error) => {
-                console.error(error)
-                return null
-            })
-        await new Promise(resolve => setTimeout(resolve, 500))
-        if (response && response.available) {
-            console.log(response)
-
-        }
+app.post('/api/check', async (req: Request, res: Response) => {
+    const {domainName} = req.body
+    if (domainName) {
+        res.json(await checker.check(domainName))
+    } else {
+        res.send("No domainName")
     }
-}
+})
 
-run()
+app.listen(port, () => {
+    console.log(`Example app listening on port ${port}`)
+})
