@@ -1,7 +1,7 @@
 import {applyMiddleware, combineReducers, createStore} from 'redux'
 import {composeWithDevTools} from "redux-devtools-extension";
-import counterMiddleware from "./middlewares/counter";
 import checkerReducer, {ICheckerState} from "./reducers/cheker.ts";
+import chekerMiddleware from "./middlewares/cheker.ts";
 
 // import "./subscriptions/counter"
 
@@ -16,6 +16,6 @@ const reducers = combineReducers({
 })
 
 // const store = createStore(reducers, composeEnhancers())
-const index = createStore(reducers, composeEnhancers(applyMiddleware(counterMiddleware)))
+const index = createStore(reducers, composeEnhancers(applyMiddleware(chekerMiddleware)))
 
 export default index

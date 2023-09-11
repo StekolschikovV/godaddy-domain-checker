@@ -1,21 +1,24 @@
-import {EActionType, IAction} from "../actions/index"
+import {EActionType, EStatus, IAction} from "../actions/cheker"
 
 export interface ICheckerState {
     type?: string
+    status: EStatus,
+    isQueue: boolean
     domains: {
-        domainName: string,
+        domainName: string
         status: boolean | null
     }[]
 }
 
 // Initial State
 const initialState: ICheckerState = {
+    isQueue: false,
+    status: EStatus.WAITING,
     domains: []
 };
 
 // Reducer
 const checkerReducer = (state = initialState, action: IAction) => {
-    console.log(state, action)
     switch (action.type) {
         case EActionType.ADD_DOMAIN:
             let idExist = state.domains.filter(e => e.domainName === action.payload.domainName)
@@ -23,6 +26,8 @@ const checkerReducer = (state = initialState, action: IAction) => {
                 return state
             }
             return {
+                ...state,
+                isQueue: true,
                 domains: [
                     ...state.domains,
                     {
@@ -32,7 +37,8 @@ const checkerReducer = (state = initialState, action: IAction) => {
                 ]
             }
         case EActionType.UPDATE_DOMAIN:
-            return {
+            const newState = {
+                ...state,
                 domains: state.domains.map(e => {
                     if (e.domainName === action.payload.domainName) {
                         return action.payload
@@ -40,6 +46,15 @@ const checkerReducer = (state = initialState, action: IAction) => {
                         return e
                     }
                 })
+            }
+            return {
+                ...newState,
+                isQueue: newState.domains.filter(d => d.status === null).length > 0
+            }
+        case EActionType.SET_STATUS:
+            return {
+                ...state,
+                status: action.payload.status
             }
         default:
             return state
