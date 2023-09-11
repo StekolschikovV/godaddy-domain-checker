@@ -24,7 +24,6 @@ app.post('/api/check', async (req: Request, res: Response) => {
     }
 })
 
-
 app.use(express.static(path.join(__dirname, 'website/build')));
 
 app.get('/', (req, res) => {

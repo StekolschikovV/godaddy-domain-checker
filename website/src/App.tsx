@@ -30,7 +30,7 @@ function App() {
             <p className="text-5xl mb-16 mt-16">Godaddy domain checker</p>
             <div className={"mb-10"}>
                 <label htmlFor="sites"
-                       className="block mb-2 text-sm font-medium text-gray-900">Sites:</label>
+                       className="block mb-2 text-sm font-medium text-gray-900">Domains:</label>
                 <textarea
                     value={domainsInput}
                     onChange={e => setDomainsInput(e.target.value)}
