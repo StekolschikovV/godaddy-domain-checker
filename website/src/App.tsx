@@ -3,7 +3,7 @@ import {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import cn from "classnames";
 import {IStore} from "./store";
-import {addDomain, EStatus} from "./store/actions/cheker";
+import {addDomain, clear, EStatus} from "./store/actions/cheker";
 
 function App() {
 
@@ -12,12 +12,17 @@ function App() {
     const checkerState = useSelector((state: IStore) => state.checker)
     const [domainsInput, setDomainsInput] = useState("")
 
-    const clickHandler = () => {
+    const addHandler = () => {
         domainsInput
             .split(/(\s)/)
             .map(e => e.replace(",", ""))
             .filter(e => e.trim())
             .map(e => dispatch(addDomain(e)))
+    }
+
+    const clearHandler = () => {
+        setDomainsInput("")
+        dispatch(clear())
     }
 
     return (
@@ -34,13 +39,18 @@ function App() {
                     className=" border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                     placeholder={"example.com, ..."}/>
             </div>
-            <div className={"text-right mb-10"}>
+            <div className={"mb-10 flex gap-3 justify-end"}>
                 <button
-                    onClick={clickHandler}
+                    onClick={addHandler}
                     className={cn('bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded', {
                         "cursor-not-allowed opacity-50": checkerState.status === EStatus.CHECKING
                     })}>
                     Check
+                </button>
+                <button
+                    onClick={clearHandler}
+                    className={cn('bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded')}>
+                    Clear
                 </button>
             </div>
             {checkerState.domains.length > 0 &&

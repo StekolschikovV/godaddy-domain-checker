@@ -2,14 +2,19 @@
 export enum EActionType {
     'ADD_DOMAIN',
     'UPDATE_DOMAIN',
-    'SET_STATUS'
+    'SET_STATUS',
+    "CLEAR"
 }
 
 // Interface
 
 export enum EStatus {
     "CHECKING",
-    "WAITING"
+    "WAITING",
+}
+
+export interface IClearAction {
+    type: EActionType.CLEAR
 }
 
 export interface ISetStatusAction {
@@ -35,7 +40,7 @@ export interface IUpdateDomainAction {
     }
 }
 
-export type IAction = IAddDomainAction | IUpdateDomainAction | ISetStatusAction
+export type IAction = IAddDomainAction | IUpdateDomainAction | ISetStatusAction | IClearAction
 
 export const addDomain = (domainName: string): IAddDomainAction => ({
     type: EActionType.ADD_DOMAIN,
@@ -57,3 +62,7 @@ export const setStatus = (status: EStatus): ISetStatusAction => ({
         status
     }
 });
+
+export const clear = (): IClearAction => ({
+    type: EActionType.CLEAR,
+})

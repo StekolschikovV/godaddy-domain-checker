@@ -56,6 +56,8 @@ const checkerReducer = (state = initialState, action: IAction) => {
                 ...state,
                 status: action.payload.status
             }
+        case EActionType.CLEAR:
+            return initialState
         default:
             return state
     }
