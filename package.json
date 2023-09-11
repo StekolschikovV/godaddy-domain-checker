@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "ts-node index.ts",
-    "build": "npm i & npm i --prefix website & npm run build --prefix website"
+    "build": "npm i && npm i --prefix website && npm run build --prefix website"
   },
   "keywords": [],
   "author": "",
