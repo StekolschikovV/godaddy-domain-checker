@@ -1,4 +1,6 @@
 import express, {Request, Response} from 'express';
+import path from 'path';
+
 import checker from "./checker";
 
 const app = express()
@@ -22,9 +24,17 @@ app.post('/api/check', async (req: Request, res: Response) => {
     }
 })
 
-app.get('/', async (req: Request, res: Response) => {
-    res.send("Hi!")
-})
+// app.get('/', async (req: Request, res: Response) => {
+//     res.send("Hi!")
+// })
+
+
+app.use(express.static(path.join(__dirname, 'website/dist')));
+
+// Обработка всех запросов, кроме API-запросов, отправляет index.html
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'website/dist', 'index.html'));
+});
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)

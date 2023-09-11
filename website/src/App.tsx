@@ -1,8 +1,9 @@
 import './App.css'
 import {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
+import * as cn from "classnames"
 import {IStore} from "./store";
-import {addDomain} from "./store/actions/cheker.ts";
+import {addDomain, EStatus} from "./store/actions/cheker.ts";
 
 function App() {
 
@@ -24,7 +25,7 @@ function App() {
             <p className="text-5xl mb-16 mt-16">Godaddy domain checker</p>
             <div className={"mb-10"}>
                 <label htmlFor="sites"
-                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Sites:</label>
+                       className="block mb-2 text-sm font-medium text-gray-900">Sites:</label>
                 <textarea
                     value={domainsInput}
                     onChange={e => setDomainsInput(e.target.value)}
@@ -36,18 +37,16 @@ function App() {
             <div className={"text-right mb-10"}>
                 <button
                     onClick={clickHandler}
-                    className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
-                    Check
-                </button>
-                <button
-                    className="bg-blue-500 text-white font-bold py-2 px-4 rounded opacity-50 cursor-not-allowed">
+                    className={cn('bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded', {
+                        "cursor-not-allowed opacity-50": checkerState.status === EStatus.CHECKING
+                    })}>
                     Check
                 </button>
             </div>
             {checkerState.domains.length > 0 &&
                 <div className={"min-w-full"}>
-                    <label htmlFor="results"
-                           className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Results:</label>
+                    <label
+                        className="block mb-2 text-sm font-medium text-gray-900">Results:</label>
                     <table
                         id={"results"}
                         className="rounded-lg text-left border border-separate border-tools-table-outline  border-1 w-full pb-5">
@@ -74,6 +73,8 @@ function App() {
                                                 fill="currentFill"/>
                                         </svg>
                                     }
+                                    {d.status === true && "available"}
+                                    {d.status === false && "not available"}
                                 </td>
                             </tr>
                         })}
