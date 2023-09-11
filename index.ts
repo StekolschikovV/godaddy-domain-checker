@@ -15,6 +15,10 @@ app.post('/api/check', async (req: Request, res: Response) => {
     }
 })
 
+app.get('/', async (req: Request, res: Response) => {
+    res.send("Hi!")
+})
+
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
 })
