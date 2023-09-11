@@ -2,10 +2,29 @@
 export enum EActionType {
     'INCREMENT',
     'EVEN',
-    'JOKE'
+    'JOKE',
+
+    'ADD_DOMAIN',
+    'UPDATE_DOMAIN'
 }
 
 // Interface
+export interface IAddDomainAction {
+    type: EActionType.ADD_DOMAIN,
+    payload: {
+        domainName: string
+        status: boolean | null
+    }
+}
+
+export interface IUpdateDomainAction {
+    type: EActionType.UPDATE_DOMAIN,
+    payload: {
+        domainName: string
+        status: boolean | null
+    }
+}
+
 export interface IIncrementAction {
     type: EActionType.INCREMENT
 }
@@ -24,7 +43,7 @@ export interface IJokeAction {
     }
 }
 
-export type IAction = IIncrementAction | IEvenAction | IJokeAction
+export type IAction = IIncrementAction | IEvenAction | IJokeAction | IAddDomainAction | IUpdateDomainAction
 
 
 // Action Creators
@@ -41,5 +60,21 @@ export const joke = (joke: string): IJokeAction => ({
     type: EActionType.JOKE,
     payload: {
         joke
+    }
+});
+
+
+export const addDomain = (domainName: string): IAddDomainAction => ({
+    type: EActionType.ADD_DOMAIN,
+    payload: {
+        domainName,
+        status: null
+    }
+});
+export const updateDomain = (domainName: string, status: boolean): IUpdateDomainAction => ({
+    type: EActionType.UPDATE_DOMAIN,
+    payload: {
+        domainName,
+        status
     }
 });
